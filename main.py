@@ -7,7 +7,7 @@ from picamera2 import Picamera2
 # === Configurations ===
 SERVER_URL = "http://45.154.24.169:8000/upload/RaspberryPi1"
 PHOTO_DIR = os.path.expanduser("~/photos")
-INTERVAL = 30  # seconds between uploads
+INTERVAL = 600  # seconds between uploads
 
 # === Ensure photo directory exists ===
 os.makedirs(PHOTO_DIR, exist_ok=True)
