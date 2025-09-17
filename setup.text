@@ -16,3 +16,76 @@ Environment=PYTHONUNBUFFERED=1
 
 [Install]
 WantedBy=multi-user.target
+
+
+
+
+Steps:
+
+Create a systemd service unit file for your script.
+
+Open a terminal on your Raspberry Pi and run:
+
+sudo nano /etc/systemd/system/camera_upload.service
+
+
+Add the following content to the file:
+
+[Unit]
+Description=Camera Upload Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/raspberrypi1/Desktop/code/main.py
+WorkingDirectory=/home/raspberrypi1/Desktop/code
+User=pi
+Group=pi
+Restart=always
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+
+
+Explanation of key parts:
+
+ExecStart: The command to run your Python script. Make sure this points to the correct Python interpreter and your script file.
+
+WorkingDirectory: The directory where your script is located.
+
+User and Group: The user and group under which the script should run (usually pi).
+
+Restart=always: Ensures that the service will automatically restart if it crashes.
+
+Reload the systemd configuration to apply the new service:
+
+sudo systemctl daemon-reload
+
+
+Enable the service to run at boot:
+
+sudo systemctl enable camera_upload.service
+
+
+Start the service immediately without rebooting:
+
+sudo systemctl start camera_upload.service
+
+
+Check the status to make sure it's running:
+
+sudo systemctl status camera_upload.service
+
+
+If everything is working, you should see something like:
+
+● camera_upload.service - Camera Upload Service
+   Loaded: loaded (/etc/systemd/system/camera_upload.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2023-09-17 10:00:00 UTC; 1min ago
+   ...
+
+
+Reboot your Raspberry Pi to confirm it's automatically running:
+
+sudo reboot
